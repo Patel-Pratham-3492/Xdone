@@ -1,0 +1,52 @@
+.quote-card {
+  margin-top: 32px;
+  padding: 22px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.quote-chapter {
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.quote-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.quote-text {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.quote-author {
+  text-align: right;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.quote-message {
+  color: #334155;
+}
+
+/* Accent colors */
+.accent-green { border-left: 6px solid #22c55e; }
+.accent-pink { border-left: 6px solid #f472b6; }
+.accent-black { border-left: 6px solid #0f172a; }
+.accent-purple { border-left: 6px solid #a855f7; }
+.accent-violet { border-left: 6px solid #8b5cf6; }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .quote-text {
+    font-size: 1rem;
+  }
+  .quote-title {
+    font-size: 1.05rem;
+  }
+}

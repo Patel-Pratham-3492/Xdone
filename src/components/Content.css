@@ -1,0 +1,58 @@
+/* FULL PAGE SETUP */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  scroll-behavior: smooth; /* smooth scrolling */
+}
+
+/* XD CONTENT SECTION - full viewport */
+.xd-content {
+  height: 100vh;           /* full screen height */
+  width: 100%;
+  padding: 20px;
+  background: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Greeting */
+.xd-greeting {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.xd-name {
+  color: #22c55e;
+  font-weight: 700;
+}
+
+/* Quote */
+.xd-quote {
+  font-size: 1.6rem;
+  color: #334155;
+  min-height: 24px;
+  font-style: italic;
+}
+
+/* MOBILE */
+@media (max-width: 576px) {
+  .xd-content {
+    height: 100vh;         /* still full screen on mobile */
+    padding: 15px;
+  }
+
+  .xd-greeting {
+    font-size: 1.8rem;
+  }
+
+  .xd-quote {
+    font-size: 1.15rem;
+  }
+}

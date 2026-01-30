@@ -1,0 +1,24 @@
+/* FOOTER */
+.xd-footer {
+  background: #0f172a; /* dark/navy color matching navbar */
+  color: #ffffff;      /* white text */
+  padding: 20px 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+  width: 100%;
+}
+
+/* Green text for Mr. Patel */
+.xd-footer-green {
+  color: #22c55e; /* Ben-10 green */
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .xd-footer {
+    font-size: 1.25rem;
+    padding: 16px 0;
+  }
+}
