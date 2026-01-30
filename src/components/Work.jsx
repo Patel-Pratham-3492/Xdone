@@ -8,10 +8,10 @@ export default function Work() {
   const [newTask, setNewTask] = useState("");
   const [summary, setSummary] = useState(null);
 
-  // Helper: get today's date normalized to local midnight
+  // Helper: today at local midnight
   const getTodayDate = () => {
     const d = new Date();
-    d.setHours(0, 0, 0, 0); // local midnight
+    d.setHours(0, 0, 0, 0);
     return d;
   };
 
@@ -22,32 +22,46 @@ export default function Work() {
     fetchSummary();
   }, []);
 
-  // Fetch tasks for today
+  // ✅ Normalize array safely
+  const normalizeArray = (data) => {
+    if (Array.isArray(data)) return data;
+    if (Array.isArray(data?.data)) return data.data;
+    return [];
+  };
+
+  // Fetch tasks
   const fetchTasks = async () => {
     try {
       const res = await API.get(`/tasks?date=${today.toISOString()}`);
-      setTasks(res.data);
+      setTasks(normalizeArray(res.data));
     } catch (err) {
       console.error("Fetch tasks error:", err);
+      setTasks([]); // prevent crash
     }
   };
 
-  // Fetch daily summary for today
+  // Fetch daily summary
   const fetchSummary = async () => {
     try {
-      const res = await API.get(`/summary/daily-summary?date=${today.toISOString()}`);
-      setSummary(res.data);
+      const res = await API.get(
+        `/summary/daily-summary?date=${today.toISOString()}`
+      );
+      setSummary(res.data?.data || res.data || null);
     } catch (err) {
       console.error("Fetch summary error:", err);
+      setSummary(null);
     }
   };
 
-  // Add a new task
+  // Add task
   const addTask = async () => {
     if (!newTask.trim()) return;
 
     try {
-      await API.post("/tasks", { title: newTask, date: today });
+      await API.post("/tasks", {
+        title: newTask,
+        date: today.toISOString(),
+      });
       setNewTask("");
       fetchTasks();
       fetchSummary();
@@ -56,7 +70,7 @@ export default function Work() {
     }
   };
 
-  // Mark a task as done
+  // Mark done
   const markDone = async (id) => {
     try {
       await API.patch(`/tasks/${id}/done`);
@@ -67,14 +81,16 @@ export default function Work() {
     }
   };
 
-  const todoTasks = tasks.filter((t) => t.status === "todo");
-  const doneTasks = tasks.filter((t) => t.status === "done");
+  // ✅ SAFE filtering (no crash possible)
+  const safeTasks = Array.isArray(tasks) ? tasks : [];
+  const todoTasks = safeTasks.filter((t) => t.status === "todo");
+  const doneTasks = safeTasks.filter((t) => t.status === "done");
 
   return (
     <section className="work-section">
       <div className="work-grid">
 
-        {/* LEFT SIDE */}
+        {/* LEFT */}
         <div className="work-left">
           <div className="work-header">
             <h2>Today's Work</h2>
@@ -94,7 +110,10 @@ export default function Work() {
               <h3>To Do</h3>
               {todoTasks.map((task) => (
                 <div className="task-item" key={task._id}>
-                  <input type="checkbox" onChange={() => markDone(task._id)} />
+                  <input
+                    type="checkbox"
+                    onChange={() => markDone(task._id)}
+                  />
                   <span>{task.title}</span>
                 </div>
               ))}
@@ -111,12 +130,12 @@ export default function Work() {
           </div>
         </div>
 
-        {/* RIGHT SIDE - DONUT */}
+        {/* RIGHT */}
         <div className="work-right">
           <div className="donut-card">
             <DonutChart
               completed={summary?.completedTasks || 0}
-              total={summary?.totalTasks || 0}
+              total={summary?.totalTasks || 1}
               size={220}
               color={
                 summary?.completionColor === "green"
